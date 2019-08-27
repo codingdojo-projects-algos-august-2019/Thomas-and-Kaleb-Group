@@ -1,10 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
-		<title>Document</title>
-	</head>
-	<body></body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <title>AssetInventory Sign Up and Login</title>
+</head>
+<body>
+    <div class="jumbotron text-center">
+        <h1>AssetInventory Sign Up and Login</h1>
+    </div>
+
+    {% with messages = get_flashed_messages() %}     <!-- declare a variable called messages -->
+        {% if messages %}                            <!-- check if there are any messages -->
+            {% for message in messages %}
+            <div class="alert alert-danger">            <!-- loop through the messages -->
+                <p>{{message}}</p>
+            </div>                   <!-- display each message in a paragraph tag -->
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+    <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">AssetInventory</a>
+            </div>
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="/">Home</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="container">
+                <h2>Sign Up</h2>
+            </div>
+            
+            <form action="/register" method="POST">
+                <div class="form-group">
+                    <label for="first_name">First Name:</label>
+                    <input type="text" class="form-control" name="first_name">
+                </div>
+                <div class="form-group">
+                        <label for="last_name">Last Name:</label>
+                        <input type="text" class="form-control" name="last_name">
+                </div>
+                <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="text" class="form-control" name="email">
+                </div>
+                <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="text" class="form-control" name="password">
+                </div>
+                <div class="form-group">
+                        <label for="c_password">Confirm Password:</label>
+                        <input type="text" class="form-control" name="c_password">
+                </div>
+                <input type="submit" value = "Register">
+            </form>
+        
+
+        </div>
+
+        <div class="col-sm-6">
+                <div class="container">
+                        <h2>Login</h2>
+                </div>
+
+            <form action="/login" method="POST">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" class="form-control" name="email"></p>
+                </div>
+                <div class="form-group">
+                    <label for="pwd">Password:</label>
+                    <input type="text" class="form-control" name="password">
+                </div>
+                <input type="submit" value = "Login">
+            </form>
+        </div>
+    </div>
+
+    <footer class="container-fluid text-center">
+            <p></p>  
+    </footer>
+</body>
 </html>

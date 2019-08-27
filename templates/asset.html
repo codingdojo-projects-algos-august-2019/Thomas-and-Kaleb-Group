@@ -1,10 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
-		<title>Document</title>
-	</head>
-	<body></body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <title>{{user['fname']}}'s Farm</title>
+</head>
+<body>
+    <div class="jumbotron text-center">
+        <h1>Asset Inventory Builder</h1>
+    </div>
+
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <p class="navbar-brand">Hi {{user['fname']}}</p>
+        </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/">Home</a></li>
+                <li><a href="/asset">Your Inventory</a></li>
+                <li><a href="/">Marketplace</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span>Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    {% with messages = get_flashed_messages() %}     
+        {% if messages %}                            
+            {% for message in messages %}
+            <div class="alert alert-danger">            
+                <p>{{message}}</p>
+            </div>                   
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <div class="container">
+
+
+    <h2>{{user['fname']}}, please enter your Inventory!</h2>
+
+    <h3>Currently, you have XXX assets in inventory that have a value of over $XXX!</h3>
+
+    
+    </div>
+
+    <div class="container">
+    
+    <h3>Build your inventory!</h3>
+
+    <form action="/post_asset" method="POST"> 
+    <table>
+        <thead>
+            <tr>
+                <th>Item Description</th>
+                <th>Item Count</th>
+                <th>Brand</th>
+                <th>Make</th>
+                <th>Year</th>
+                <th>Value</th>
+                <th>Location</th>
+                <th>Comments</th>
+            </tr>
+        </thead>                   
+        <tbody>
+            <tr>
+                <td><input type="text" name="description"></td>
+                <td><input type="float" name="count"></td>
+                <td><input type="text" name="brand"></td>
+                <td><input type="text" name="make"></td>
+                <td><input type="float" name="year"></td>
+				<td><input type="float" name="value"></td>
+				<td><input type="text" name="location"></td>
+                <td><input type="text" name="comments"></td>
+            </tr>
+        </tbody>
+    </table>
+    <input type="submit" value="Post a Asset">
+    </form>
+    </div>
+
+    <div class="container">
+        <h3>{{user['fname']}}'s Inventory List</h3>
+
+
+    <h2>{{user['fname']}} has no inventory data to display!</h2>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Item Description</th>
+                <th>Item Count</th>
+                <th>Brand</th>
+                <th>Make</th>
+                <th>Year</th>
+                <th>Value</th>
+                <th>Location</th>
+                <th>Comments</th>
+                <th>Last Updated</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>                    
+        <tbody>
+        {% for assets in asset %}
+            <tr>
+                <td>{{assets['description']}}</td>
+                <td>{{assets['count']}}</td>
+                <td>{{assets['brand']}}</td>
+                <td>{{assets['make']}}</td>
+                <td>{{assets['year']}}</td>
+                <td>{{assets['value']}}</td>
+                <td>{{assets['location']}}</td>
+                <td>{{assets['comments']}}</td>
+                <td>{{assets['updated_at']}}</td>
+                <td><p class="details"><a href="/edit/{{assets['idasset']}}">Edit</a></p></td>
+                <td><p class="details"><a href="/deleteasset/{{assets['idasset']}}">Delete</a></p></td>
+            </tr>
+        {% endfor %}  
+        </tbody>
+
+
+    </div>
+
+    <footer class="container-fluid text-center">
+        <p></p>  
+    </footer>
+</body>
 </html>
