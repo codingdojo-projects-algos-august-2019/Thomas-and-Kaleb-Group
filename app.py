@@ -200,9 +200,14 @@ def delete_asset(m_id):
     return redirect("/asset")
 
 
-@app.route('/board')
+@app.route('/marketplace')
 def board():
     return render_template('board.html')
+
+
+@app.route('/nav')
+def navbar():
+    return render_template('partials/nav.html')
 
 
 if __name__ == "__main__":

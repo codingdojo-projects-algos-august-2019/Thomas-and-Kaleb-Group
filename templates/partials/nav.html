@@ -1,0 +1,36 @@
+{% if session['user_id'] is defined %}
+<div class="container-fluid">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="/">AssetInventory</a>
+	</div>
+	<ul class="nav navbar-nav">
+		<li><a href="/">Home</a></li>
+		<li><a href="/asset">Your Inventory</a></li>
+		<li><a href="/marketplace">Marketplace</a></li>
+	</ul>
+	<ul class="nav navbar-nav navbar-right">
+		<li>
+			<a href="/logout"
+				><span class="glyphicon glyphicon-log-in"></span>Logout</a
+			>
+		</li>
+	</ul>
+</div>
+
+{% else %}
+<div class="container-fluid">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="/">AssetInventory</a>
+	</div>
+	<ul class="nav navbar-nav">
+		<li class="active"><a href="/">Home</a></li>
+	</ul>
+	<ul class="nav navbar-nav navbar-right">
+		<li>
+			<a href="/loginregister"
+				><span class="glyphicon glyphicon-user"></span>Sign Up/Login</a
+			>
+		</li>
+	</ul>
+</div>
+{% endif %}
