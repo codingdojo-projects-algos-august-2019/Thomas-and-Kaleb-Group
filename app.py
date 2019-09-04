@@ -198,8 +198,17 @@ def edit_asset(m_id):
         'mid': m_id
     }
     asset = mysql.query_db(query, data)
+    return render_template("assetEdit.html", user=user[0], asset=asset[0])
 
-    return render_template("assetEdit.html", user=user[0], asset=asset)
+
+@app.route("/update/<m_id>", methods=['POST'])
+def update_asset(m_id):
+    mysql = connectToMySQL('assets')
+    query = "UPDATE assets SET description = %(des)s, count= %(cnt)s, brand = %(br)s, make = %(mk)s, year = %(yr)s, value= %(val)s,location = %(loc)s,comments = %(com)s, updated_at=now() WHERE idasset = %(m_id)s"
+    data = {'des': request.form['description'], 'cnt': request.form['count'], 'br': request.form['brand'], 'mk': request.form['make'],
+            'yr': request.form['year'], 'val': request.form['value'], 'loc': request.form['location'], 'com': request.form['comments'], 'm_id': m_id}
+    mysql.query_db(query, data)
+    return redirect("/")
 
 
 @app.route("/deleteasset/<m_id>")

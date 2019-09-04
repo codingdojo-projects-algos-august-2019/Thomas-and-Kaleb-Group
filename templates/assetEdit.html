@@ -17,7 +17,122 @@
 		<div class="jumbotron text-center">
 			<h1>Edit Page</h1>
 		</div>
-
+		{{ asset }}
 		<nav class="navbar navbar-inverse"></nav>
+		<div class="container">
+			<form
+				action="/update/{{ asset.idasset }}"
+				method="POST"
+				class="d-flex flex-column"
+			>
+				<div class="d-flex flex-row mb-3">
+					<div class="form-row col-md-12">
+						<div class="col-md-4 col-sm-4 mb-4">
+							<label for="description">Item Description</label>
+							<input
+								type="text"
+								class="form-control"
+								id="description"
+								placeholder="description"
+								name="description"
+								value="{{ asset.description }}"
+								required
+							/>
+						</div>
+						<div class="col-md-2 col-sm-2 mb-4">
+							<label for="itemCount">Item Count</label>
+							<input
+								type="text"
+								class="form-control"
+								id="itemCount"
+								placeholder="count"
+								name="count"
+								value="{{ asset.count }}"
+								required
+							/>
+						</div>
+						<div class="col-md-2 col-sm-2 mb-4">
+							<label for="value">Value</label>
+							<input
+								type="float"
+								name="value"
+								value="{{ asset.value }}"
+								class="form-control"
+								id="value"
+								placeholder="$0.00"
+								required
+							/>
+						</div>
+						<div class="col-md-2 col-sm-2 mb-4">
+							<label for="location">Location</label
+							><input
+								type="text"
+								name="location"
+								value="{{ asset.location }}"
+								class="form-control"
+								id="location"
+								placeholder="box1..."
+								required
+							/>
+						</div>
+					</div>
+					<div class="form-row col-md-12">
+						<div class="col-md-2 col-sm-2 mb-4">
+							<label for="brand">Brand</label>
+							<input
+								type="text"
+								class="form-control"
+								id="brand"
+								placeholder="Brand"
+								name="brand"
+								value="{{ asset.brand }}"
+							/>
+						</div>
+						<div class="col-md-2 col-sm-2 mb-4">
+							<label for="make">Make</label>
+							<input
+								type="text"
+								class="form-control"
+								id="make"
+								placeholder="Make"
+								name="make"
+								value="{{ asset.make }}"
+							/>
+						</div>
+						<div class="col-md-2 col-sm-2 mb-4">
+							<label for="year">Year</label>
+							<input
+								type="float"
+								name="year"
+								value="{{ asset.year }}"
+								class="form-control"
+								id="year"
+								placeholder="Year"
+							/>
+						</div>
+
+						<div class="col-md-2 col-sm-2 mb-4">
+							<label for="comments">Comments</label>
+							<input
+								type="text"
+								name="comments"
+								value="{{ asset.comments }}"
+								class="form-control"
+								id="comments"
+							/>
+						</div>
+						<div class="col-md-2 col-sm-2 mb-4" style="padding: 25px 0 0 25px">
+							<input
+								name="submit"
+								type="submit"
+								value="Update Asset"
+								class="btn btn-primary"
+							/>
+						</div>
+					</div>
+					<div class="form-row col-md-12 mb-3"></div>
+				</div>
+			</form>
+		</div>
 	</body>
 </html>
