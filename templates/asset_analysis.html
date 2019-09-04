@@ -10,14 +10,38 @@
 		/>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+		<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 		<script src="{{ url_for('static', filename='js/main.js')}}"></script>
+		<script src="{{ url_for('static', filename='js/plotly.js')}}"></script>
 		<title>{{ session['fname'] }}'s AssetInventory</title>
 	</head>
 	<body>
 		<div class="jumbotron text-center">
-			<h1>Welcome to the AssetInventory Marketplace</h1>
+			<h1>Welcome to the AssetInventory Analysis</h1>
 		</div>
-
 		<nav class="navbar navbar-inverse"></nav>
+		<div id="myDiv"></div>
+		<!-- <script>
+			var trace1 = {
+				type: 'bar',
+				x: [1, 2, 3, 4],
+				y: [5, 10, 2, 8],
+				marker: {
+					color: '#C8A2C8',
+					line: {
+						width: 2.5
+					}
+				}
+			};
+
+			var data = [trace1];
+
+			var layout = {
+				title: "Responsive to window's size!",
+				font: { size: 18 }
+			};
+
+			Plotly.newPlot('myDiv', data, layout, { responsive: true });
+		</script> -->
 	</body>
 </html>

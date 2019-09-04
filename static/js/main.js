@@ -1,6 +1,5 @@
 $(document).ready(function() {
 	function navBar() {
-		console.log('working');
 		$.ajax({
 			url: '/nav'
 		}).done(function(res) {

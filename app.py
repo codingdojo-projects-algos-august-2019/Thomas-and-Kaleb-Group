@@ -1,8 +1,14 @@
-from flask import Flask, render_template, request, redirect, session, flash
+from flask import Flask, render_template, request, redirect, session, flash, jsonify
 from mysqlconnection import connectToMySQL
 from flask_bcrypt import Bcrypt
 
+import pandas as pd
+import plotly.graph_objects as go
+import chart_studio.plotly as py
+import json
 import re
+import pymysql
+
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 
 app = Flask(__name__)
@@ -12,7 +18,13 @@ bcrypt = Bcrypt(app)
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    if 'logged_in' not in session:
+        return render_template("index.html")
+    if session['logged_in']:
+
+        return redirect('/asset')
+    else:
+        return render_template("index.html")
 
 
 @app.route("/loginregister")
@@ -87,7 +99,9 @@ def login_user():
         if user:
             hashed_password = user[0]['password']
             if bcrypt.check_password_hash(hashed_password, request.form['password']):
+                session['logged_in'] = True
                 session['user_id'] = user[0]['id']
+                session['fname'] = user[0]['fname']
                 return redirect("/asset")
             else:
                 flash("Password invalid")
@@ -109,6 +123,7 @@ def logout_user():
 
 @app.route('/asset')
 def asset():
+    print(session)
     if 'user_id' not in session:
         return redirect("/")
 
@@ -127,12 +142,12 @@ def asset():
     asset = mysql.query_db(query, data)
 
     mysql = connectToMySQL('assets')
-    query = "SELECT count(idasset) as assets, sum(value) as total_value FROM assets WHERE assets.user_id = %(id)s"
+    query = "SELECT count(idasset) as assets, format(sum(value), 2)as total_value FROM assets WHERE assets.user_id = %(id)s"
     data = {
         'id': session['user_id']
     }
     asset_values = mysql.query_db(query, data)
-
+    print(asset_values)
     return render_template("asset.html", user=user[0], asset=asset, asset_values=asset_values[0])
 
 
@@ -140,7 +155,7 @@ def asset():
 def post_asset():
 
     # Build Validattions for Inputs
-    #is_valid = True
+    # is_valid = True
     # if len(request.form['location']) < 3:
     #    is_valid = False
     #    flash('Thought must be at least 3 characters')
@@ -208,6 +223,48 @@ def board():
 @app.route('/nav')
 def navbar():
     return render_template('partials/nav.html')
+
+
+@app.route('/asset_chart')
+def assetChart():
+    mysql = connectToMySQL('assets')
+
+    query = "SELECT location, sum(value) as inventoryValue, sum(assets.count) as inventoryCount FROM assets WHERE assets.user_id = %(id)s group by location"
+    # query = "SELECT location, sum(value) as inventoryValue, count(make) as inventoryCount FROM assets WHERE assets.user_id = 18 group by location"
+    data = {
+        'id': session['user_id']
+    }
+    asset = mysql.query_db(query, data)
+    # str(asset)[0:300]
+    # connection = pymysql.connect(host='localhost',
+    #                              user='root',
+    #                              password='root',
+    #                              db='assets',
+    #                              charset='utf8mb4',
+    #                              cursorclass=pymysql.cursors.DictCursor,
+    #                              autocommit=True)
+    # connection.cursor()
+
+    # df = pd.read_sql(query, connection)
+    # # df.rename(columns={0: 'Location', 1: 'Inventory Value',
+    # #                    2: 'Inventory Count'}, inplace=True)
+    # df = df.sort_values(['location'], ascending=[1])
+    # data = go.Pie(labels=df['location'], values=df['inventoryValue'])
+    # colors = ['gold', 'mediumturquoise', 'darkorange', 'lightgreen']
+    # # fig = go.Figure(data=data)
+    # # fig.update_traces(hoverinfo='label+percent', textinfo='value', textfont_size=20,
+    # #                   marker=dict(colors=colors, line=dict(color='#000000', width=2)))
+    # # fig.show()
+
+    print("*"*60)
+    print(asset)
+    print("*"*60)
+    return jsonify(asset)
+
+
+@app.route("/asset_analysis")
+def analysis():
+    return render_template("/asset_analysis.html")
 
 
 if __name__ == "__main__":
